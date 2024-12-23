@@ -6,50 +6,49 @@
 #pragma once
 
 #include <QFileInfo>
-#include "../vendor/qslog/QsLog.h"
+#include <QDebug>
 
+namespace edbee {
+    enum LogLevel {
+        LogLevelFatal = 1,
+        LogLevelCritical = 2,
+        LogLevelError = 3,
+        LogLevelWarning = 4,
+        LogLevelInfo = 5,
+        LogLevelDebug = 6,
+        LogLevelTrace = 7
+    };
+}
+
+#ifndef EDBEE_LOG_LEVEL
+#define EDBEE_LOG_LEVEL edbee::LogLevel::LogLevelTrace
+#endif
 
 #define qlog_trace() \
-    if( QsLogging::Logger::instance().loggingLevel() > QsLogging::TraceLevel ){} \
-    else  QsLogging::Logger::Helper(QsLogging::TraceLevel).stream() << QFileInfo(__FILE__).fileName() << '@' << __LINE__
+    if( EDBEE_LOG_LEVEL < edbee::LogLevel::LogLevelTrace ) {} \
+    else qDebug() << QFileInfo(__FILE__).fileName() << '@' << __LINE__
 #define qlog_debug() \
-    if( QsLogging::Logger::instance().loggingLevel() > QsLogging::DebugLevel ){} \
-    else QsLogging::Logger::Helper(QsLogging::DebugLevel).stream() << QFileInfo(__FILE__).fileName() << '@' << __LINE__
+    if( EDBEE_LOG_LEVEL < edbee::LogLevel::LogLevelDebug ) {} \
+    else qDebug() << QFileInfo(__FILE__).fileName() << '@' << __LINE__
 #define qlog_info()  \
-    if( QsLogging::Logger::instance().loggingLevel() > QsLogging::InfoLevel ){} \
-    else QsLogging::Logger::Helper(QsLogging::InfoLevel).stream() << QFileInfo( __FILE__).fileName() << '@' << __LINE__
+    if( EDBEE_LOG_LEVEL < edbee::LogLevel::LogLevelInfo ) {} \
+    else qInfo() << QFileInfo( __FILE__).fileName() << '@' << __LINE__
 #define qlog_warn()  \
-    if( QsLogging::Logger::instance().loggingLevel() > QsLogging::WarnLevel ){} \
-    else QsLogging::Logger::Helper(QsLogging::WarnLevel).stream() << QFileInfo(__FILE__).fileName() << '@' << __LINE__
+    if( EDBEE_LOG_LEVEL < edbee::LogLevel::LogLevelWarning ) {} \
+    else qWarning() << QFileInfo(__FILE__).fileName() << '@' << __LINE__
 #define qlog_error() \
-    if( QsLogging::Logger::instance().loggingLevel() > QsLogging::ErrorLevel ){} \
-    else QsLogging::Logger::Helper(QsLogging::ErrorLevel).stream() << QFileInfo(__FILE__).fileName() << '@' << __LINE__
+    if( EDBEE_LOG_LEVEL < edbee::LogLevel::LogLevelError ) {} \
+    else qError() << QFileInfo(__FILE__).fileName() << '@' << __LINE__
+#define qlog_critical() \
+    if( EDBEE_LOG_LEVEL < edbee::LogLevel::LogLevelCritical	 ) {} \
+    else qCritical() << QFileInfo(__FILE__).fileName() << '@' << __LINE__
 #define qlog_fatal() \
-    QsLogging::Logger::Helper(QsLogging::FatalLevel).stream() << QFileInfo(__FILE__).fileName() << '@' << __LINE__
+    if( EDBEE_LOG_LEVEL < edbee::LogLevel::LogLevelFatal ) {} \
+    else qFatal() << QFileInfo(__FILE__).fileName() << '@' << __LINE__
 
-
-/*
-#define qlog_trace() \
-    if( QsLogging::Logger::instance().loggingLevel() > QsLogging::TraceLevel ){} \
-    else  QsLogging::Logger::Helper(QsLogging::TraceLevel).stream() << __FILE__ << '@' << __LINE__
-#define qlog_debug() \
-    if( QsLogging::Logger::instance().loggingLevel() > QsLogging::DebugLevel ){} \
-    else QsLogging::Logger::Helper(QsLogging::DebugLevel).stream() << __FILE__ << '@' << __LINE__
-#define qlog_info()  \
-    if( QsLogging::Logger::instance().loggingLevel() > QsLogging::InfoLevel ){} \
-    else QsLogging::Logger::Helper(QsLogging::InfoLevel).stream() << __FILE__ << '@' << __LINE__
-#define qlog_warn()  \
-    if( QsLogging::Logger::instance().loggingLevel() > QsLogging::WarnLevel ){} \
-    else QsLogging::Logger::Helper(QsLogging::WarnLevel).stream() << __FILE__ << '@' << __LINE__
-#define qlog_error() \
-    if( QsLogging::Logger::instance().loggingLevel() > QsLogging::ErrorLevel ){} \
-    else QsLogging::Logger::Helper(QsLogging::ErrorLevel).stream() << __FILE__ << '@' << __LINE__
-#define qlog_fatal() \
-    QsLogging::Logger::Helper(QsLogging::FatalLevel).stream() << __FILE__ << '@' << __LINE__
-*/
 
 
 #define qlog() \
-    QsLogging::Logger::Helper(QsLogging::InfoLevel).stream()
+    qInfo()
 
 
