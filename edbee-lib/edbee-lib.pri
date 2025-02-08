@@ -104,6 +104,7 @@ HEADERS += \
     $$PWD/edbee/data/factorykeymap.h \
     $$PWD/edbee/debug.h \
     $$PWD/edbee/edbee.h \
+    $$PWD/edbee/edbeeversion.h \
     $$PWD/edbee/exports.h \
     $$PWD/edbee/io/baseplistparser.h \
     $$PWD/edbee/io/jsonparser.h \
@@ -168,7 +169,8 @@ HEADERS += \
 
 ## Extra dependencies
 ##====================
-include($$PWD/../vendor/onig/onig.pri)
+
+include($$PWD/../vendor/oniguruma/oniguruma.pri)
 
 ## Files that can usefully listed inside Qt IDE (Qt Creator, as "Other files")
 ##============================================================================
