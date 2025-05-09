@@ -1,3 +1,6 @@
+// edbee - Copyright (c) 2012-2025 by Rick Blommers and contributors
+// SPDX-License-Identifier: MIT
+
 #include "texteditorautocompletecomponent.h"
 
 #include <QApplication>
@@ -96,6 +99,12 @@ TextEditorController *TextEditorAutoCompleteComponent::controller() const
     return controllerRef_;
 }
 
+/// Returns the QListWidget used for the autocomplete
+QListWidget *TextEditorAutoCompleteComponent::listWidget() const
+{
+    return listWidgetRef_;
+}
+
 QSize TextEditorAutoCompleteComponent::sizeHint() const
 {
     if(!listWidgetRef_) return QSize();
@@ -117,7 +126,7 @@ bool TextEditorAutoCompleteComponent::shouldDisplayAutoComplete(TextRange& range
 
     // expand the given range to word
     TextRange wordRange = range;
-    wordRange.expandToWord(doc, doc->config()->whitespaces(), doc->config()->charGroups() );
+    wordRange.expandToWord(doc, doc->config()->whitespaces(), QStringList() );
     wordRange.maxVar() = range.max(); // next go past the right caret!
     word = doc->textPart(wordRange.min(), wordRange.length()).trimmed();      // workaround for space select bug! #61
 
@@ -214,10 +223,12 @@ void TextEditorAutoCompleteComponent::showInfoTip()
     }
 
     if(!infoTip.isEmpty()) {
-      infoTipRef_->repaint();
-      infoTipRef_->move(newLoc);
-      infoTipRef_->show();
-      infoTipRef_->raise();
+        infoTipRef_->repaint();
+        infoTipRef_->move(newLoc);
+        infoTipRef_->show();
+        infoTipRef_->raise();
+    } else {
+        hideInfoTip();
     }
 }
 
@@ -517,6 +528,7 @@ FakeToolTip::FakeToolTip(TextEditorController *controller, QWidget *parent) :
     QWidget(parent, Qt::ToolTip | Qt::WindowStaysOnTopHint )
 {
     setFocusPolicy(Qt::NoFocus);
+    setAttribute(Qt::WA_ShowWithoutActivating);
     //setAttribute(Qt::WA_DeleteOnClose);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 

@@ -1,7 +1,5 @@
-/**
- * Copyright 2011-2013 - Reliable Bits Software by Blommers IT. All Rights Reserved.
- * Author Rick Blommers
- */
+// edbee - Copyright (c) 2012-2025 by Rick Blommers and contributors
+// SPDX-License-Identifier: MIT
 
 #include "grammartextlexertest.h"
 
@@ -87,7 +85,7 @@ void GrammarTextLexerTest::testHamlLexer()
 /// creates the main fixture document
 void GrammarTextLexerTest::createFixtureDocument( const QString& data )
 {
-    doc_ = new CharTextDocument(0);
+    doc_ = new CharTextDocument();
     doc_->setText( data );
 
 }

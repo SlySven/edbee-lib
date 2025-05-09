@@ -1,5 +1,28 @@
 # Changelog
 
+- (2025-05-09) #162, Autocomplete word end detection now only ends on whitespace (improves '.' usage)
+- (2025-05-09) #163, Modern C++ improvements
+  - Fixed memcpy size type issue, which potentionally could be insecure
+  - Changed CoalesceId enum to regular integers to resolve type issues
+
+- (2025-04-15) #161, AutocompleteProviderList, add support for removing provider and more control over ownership:
+  giveProvider, takeProvider, addProvider, removeProvider, removeAll
+
+- (2025-03-25) #160, Hide Autocomplete Tooltip when empty
+- (2025-03-19) #158, Cmake, Remove UiTools dependency
+- (2025-03-14) Set attribute `Qt::WA_ShowWithoutActivating` to FakeToolTip
+- (2025-03-14) #152, Add methods to access the Autocomplete QListWidget:
+  - TextEditorWidget::autoCompleteComponent() for getting the autocomplete component
+  - TextEditorAutocompleteComponent::listWidget() for getting the listwidget
+- (2025-03-13) TextMarginComponent uses config font instead of the textWidget font
+- (2025-03-05) [v0.11.1] Regression, autoInit was invoked too late the new contructor setup of #156
+- (2025-03-04) Update license headers
+- (2025-03-04) Update doxygen so it uses Doxygen Awesome
+- (2025-03-04) #156, Allow creation with predefined TextEditorConfig, TextEditorController or TextDocument
+  Backwards incompatibility: ChartTextDocument can give a ambigious constructor when only nullptr is suppied
+
+- (2025-02-27) [v0.10.0] #151, Add line based QTextLayout format additions
+  Via edbee::LineData (LineAppendTextLayoutFormatListField). see: `edbee-lib/doc/line_data.md` for sample
 
 - (2025-01-24) [v0.9.0] #150, Add version number (EDBEE_VERSION / Edbee::instance()->version())
 - (2025-01-24) #145, Replace onigmo with onigruma

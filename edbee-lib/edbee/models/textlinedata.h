@@ -1,13 +1,12 @@
-/**
- * Copyright 2011-2012 - Reliable Bits Software by Blommers IT. All Rights Reserved.
- * Author Rick Blommers
- */
+// edbee - Copyright (c) 2012-2025 by Rick Blommers and contributors
+// SPDX-License-Identifier: MIT
 
 #pragma once
 
 #include "edbee/exports.h"
 
 #include <QObject>
+#include <QTextLayout>
 
 #include "edbee/util/gapvector.h"
 
@@ -16,8 +15,9 @@ namespace edbee {
 
 enum TextLineDataPredefinedFields {
     LineTextScopesField=0,
-//    LineDataMarkers,      /// Bookmarks etc
-    PredefinedFieldCount=1
+    //    LineDataMarkers,      /// Bookmarks etc
+    LineAppendTextLayoutFormatListField=1,
+    PredefinedFieldCount=2
 };
 
 
@@ -47,8 +47,9 @@ private:
     T value_;
 };
 
-typedef BasicTextLineData<QString> QStringTextLineData;
 
+typedef BasicTextLineData<QString> QStringTextLineData;
+typedef BasicTextLineData<QList<QTextLayout::FormatRange>> LineAppendTextLayoutFormatListData;
 
 //-------
 

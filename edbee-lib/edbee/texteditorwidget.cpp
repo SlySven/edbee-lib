@@ -1,7 +1,5 @@
-/**
- * Copyright 2011-2013 - Reliable Bits Software by Blommers IT. All Rights Reserved.
- * Author Rick Blommers
- */
+// edbee - Copyright (c) 2012-2025 by Rick Blommers and contributors
+// SPDX-License-Identifier: MIT
 
 #include "texteditorwidget.h"
 
@@ -25,6 +23,7 @@
 #include "edbee/edbee.h"
 #include "edbee/texteditorcontroller.h"
 #include "edbee/models/change.h"
+#include "edbee/models/chardocument/chartextdocument.h"
 #include "edbee/models/textdocument.h"
 #include "edbee/models/texteditorconfig.h"
 #include "edbee/models/texteditorcommandmap.h"
@@ -41,27 +40,22 @@
 #include "edbee/debug.h"
 
 
+
 //#define DEBUG_DRAW_RENDER_CLIPPING_RECTANGLE 1
 
 namespace edbee {
 
 
 /// The default TextEditor widget constructor
-TextEditorWidget::TextEditorWidget(QWidget* parent)
+TextEditorWidget::TextEditorWidget(TextEditorController *controller, QWidget* parent)
     : QWidget(parent)
-    , controller_(nullptr)
+    , controller_(controller)
     , scrollAreaRef_(nullptr)
     , editCompRef_(nullptr)
     , autoCompleteCompRef_(nullptr)
     , autoScrollMargin_(50)
     , readonly_(false)
 {
-    // auto initialize edbee if this hasn't been done already
-    Edbee::instance()->autoInit();
-
-    // create the controller
-    controller_ = new TextEditorController(this);
-
     // setup the ui
     scrollAreaRef_ = new class TextEditorScrollArea(this);
     scrollAreaRef_->setWidgetResizable(true);
@@ -101,6 +95,24 @@ TextEditorWidget::TextEditorWidget(QWidget* parent)
     setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
     editCompRef_->installEventFilter(this);     // receive events for the ability to emit focus events
+
+}
+
+TextEditorWidget::TextEditorWidget(TextDocument *document, QWidget *parent)
+    : TextEditorWidget(new TextEditorController(document, this, nullptr), parent)
+{
+
+}
+
+TextEditorWidget::TextEditorWidget(TextEditorConfig *config, QWidget *parent)
+    : TextEditorWidget(new TextEditorController(new CharTextDocument(config), this, nullptr), parent)
+{
+
+}
+
+TextEditorWidget::TextEditorWidget(QWidget* parent)
+    : TextEditorWidget(new TextEditorController(this, nullptr), parent)
+{
 }
 
 
@@ -204,6 +216,11 @@ TextEditorScrollArea* TextEditorWidget::textScrollArea() const
     return scrollAreaRef_;
 }
 
+/// Returns the autocomplete component
+TextEditorAutoCompleteComponent *TextEditorWidget::autoCompleteComponent() const
+{
+    return autoCompleteCompRef_;
+}
 
 /// This method resets the caret time
 void TextEditorWidget::resetCaretTime()

@@ -1,7 +1,5 @@
-/**
- * Copyright 2011-2013 - Reliable Bits Software by Blommers IT. All Rights Reserved.
- * Author Rick Blommers
- */
+// edbee - Copyright (c) 2012-2025 by Rick Blommers and contributors
+// SPDX-License-Identifier: MIT
 
 #pragma once
 
@@ -11,6 +9,7 @@
 #include <QIcon>
 
 #include "edbee/models/textbuffer.h"
+#include "models/texteditorconfig.h"
 
 class QAction;
 
@@ -48,7 +47,8 @@ public:
     };
 
 
-    explicit TextEditorController( TextEditorWidget* widget=0, QObject *parent = 0);
+    explicit TextEditorController( TextEditorWidget* widget = nullptr, QObject *parent = nullptr );
+    explicit TextEditorController( TextDocument* document, TextEditorWidget* widget = nullptr, QObject *parent = nullptr );
     virtual ~TextEditorController();
 
 // public method
@@ -105,7 +105,7 @@ public slots:
     void onLineDataChanged( int line, int length, int newLength );
 
     void updateAfterConfigChange();
-    
+
 public slots:
 
     // updates the status text
@@ -170,7 +170,7 @@ private:
     TextCaretCache* textCaretCache_;          ///< The text-caret cache. (For remembering the x-position of the current carets)
 
     TextSearcher* textSearcher_;              ///< The text-searcher
-    
+
     AutoScrollToCaret autoScrollToCaret_;     ///< This flags tells the editor to automatically scroll to the caret
 
 

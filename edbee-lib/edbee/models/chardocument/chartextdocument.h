@@ -1,7 +1,5 @@
-/**
- * Copyright 2011-2013 - Reliable Bits Software by Blommers IT. All Rights Reserved.
- * Author Rick Blommers
- */
+// edbee - Copyright (c) 2012-2025 by Rick Blommers and contributors
+// SPDX-License-Identifier: MIT
 
 #pragma once
 
@@ -11,7 +9,7 @@
 #include <QHash>
 
 #include "edbee/models/textdocument.h"
-
+#include "edbee/models/texteditorconfig.h"
 
 namespace edbee {
 
@@ -28,7 +26,8 @@ class EDBEE_EXPORT CharTextDocument : public TextDocument
 Q_OBJECT
 
 public:
-    CharTextDocument( QObject* object=0 );
+    CharTextDocument( QObject* object );
+    CharTextDocument( TextEditorConfig *config = new TextEditorConfig(), QObject* object = nullptr );
     virtual ~CharTextDocument();
 
 

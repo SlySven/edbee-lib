@@ -1,7 +1,5 @@
-/**
- * Copyright 2011-2013 - Reliable Bits Software by Blommers IT. All Rights Reserved.
- * Author Rick Blommers
- */
+// edbee - Copyright (c) 2012-2025 by Rick Blommers and contributors
+// SPDX-License-Identifier: MIT
 
 #include "textlinedatatest.h"
 
@@ -45,7 +43,6 @@ private:
 /// Tests the line data manager
 void TextLineDataTest::testLineDataManager()
 {
-
     TextLineDataManager ldm;
     testEqual( filledTestString(ldm ), "-");
 
@@ -61,6 +58,7 @@ void TextLineDataTest::testLineDataManager()
     testEqual( filledTestString(ldm ), "-X-");
     testEqual( destroyCount, 0 );
     testEqual( destructCount, 0 );
+
 
     // inserting an item should move the data items
     ldm.fillWithEmpty(1,0,1);
@@ -85,7 +83,7 @@ void TextLineDataTest::testLineDataManager()
     testEqual( filledTestString(ldm ), "--");
     testEqual( destroyCount, 1 );
     testEqual( destructCount, 1 );
-
+    qDebug() << "E";
 }
 
 /// References issue #66 github
@@ -100,28 +98,32 @@ void TextLineDataTest::testSetTextLineDataIssue66()
     TextEditorController* controller = widget.controller();
     TextLineDataManager* tdm = doc->lineDataManager();
 
-//qDebug()<<"\n ========================================";
-//qDebug()<< "setText(a\\nb\\nc)" ;
+
+qDebug()<<"\n ========================================";
+qDebug()<< "setText(a\\nb\\nc)" ;
     doc->setText("a\nb\nc");
     testEqual(filledTestString(*tdm), "---");
-//    qDebug() << "- a:" <<  filledTestString(*tdm);
+    qDebug() << "- a:" <<  filledTestString(*tdm);
 
-//qDebug()<<"\n ========================================";
-//qDebug()<< "setText(a\\nb)" ;
+qDebug()<<"\n ========================================";
+qDebug()<< "setText(a\\nb)" ;
     doc->setText("a\nb");
     testEqual(filledTestString(*tdm), "--");
-//    qDebug() << "- b:" <<  filledTestString(*tdm);
+    qDebug() << "- b:" <<  filledTestString(*tdm);
+    qDebug() << "G";
 
-//qDebug()<<"\n ========================================";
-//qDebug()<< "undo()";
+qDebug()<<"\n ========================================";
+qDebug()<< "undo()";
     controller->undo();
     testEqual( filledTestString(*tdm), "---");
-//    qDebug() << "- c:" <<  filledTestString(*tdm);
+    qDebug() << "- c:" <<  filledTestString(*tdm);
+    qDebug() << "H";
 
 //    exit(1);
-//qDebug()<<"\n ========================================";
-//qDebug()<< "setText(a)";
+qDebug()<<"\n ========================================";
+qDebug()<< "setText(a)";
     doc->setText("a");
+    qDebug() << "I";
 }
 
 } // edbee

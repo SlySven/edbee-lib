@@ -1,7 +1,5 @@
-/**
- * Copyright 2011-2013 - Reliable Bits Software by Blommers IT. All Rights Reserved.
- * Author Rick Blommers
- */
+// edbee - Copyright (c) 2012-2025 by Rick Blommers and contributors
+// SPDX-License-Identifier: MIT
 
 #include "chartextdocument.h"
 
@@ -28,8 +26,13 @@ namespace edbee {
 
 /// The main contstructor of the chartext document
 CharTextDocument::CharTextDocument(QObject *object)
+    : edbee::CharTextDocument(new TextEditorConfig(), object)
+{
+}
+
+CharTextDocument::CharTextDocument(TextEditorConfig *config, QObject *object)
     : TextDocument(object)
-    , config_(0)
+    , config_(config)
     , textBuffer_(0)
     , textScopes_(0)
     , textLexer_(0)
@@ -40,8 +43,10 @@ CharTextDocument::CharTextDocument(QObject *object)
 {
     Q_ASSERT_GUI_THREAD;
 
+    // auto initialize edbee if this hasn't been done already
+    Edbee::instance()->autoInit();
+
     textBuffer_ = new CharTextBuffer();
-    config_ = new TextEditorConfig();
 
     textScopes_ = new TextDocumentScopes( this );
 
@@ -49,7 +54,7 @@ CharTextDocument::CharTextDocument(QObject *object)
     lineEndingRef_ = LineEnding::unixType();
 
     // create the text scopes and lexer
-    textLexer_ = new GrammarTextLexer( scopes() );
+    textLexer_ = new GrammarTextLexer( textScopes_ );
 
     // create the undo stack
     textUndoStack_ = new TextUndoStack(this);

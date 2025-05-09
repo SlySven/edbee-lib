@@ -1,13 +1,13 @@
-/**
- * Copyright 2011-2013 - Reliable Bits Software by Blommers IT. All Rights Reserved.
- * Author Rick Blommers
- */
+// edbee - Copyright (c) 2012-2025 by Rick Blommers and contributors
+// SPDX-License-Identifier: MIT
 
 #pragma once
 
 #include "edbee/exports.h"
 
-//#include <QAbstractScrollArea>
+// #include <QAbstractScrollArea>
+#include "models/texteditorconfig.h"
+
 #include <QStringList>
 #include <QWidget>
 
@@ -37,6 +37,9 @@ class EDBEE_EXPORT TextEditorWidget : public QWidget
     Q_OBJECT
 public:
 
+    explicit TextEditorWidget(TextEditorController *controller, QWidget *parent = 0);
+    explicit TextEditorWidget(TextDocument *document, QWidget *parent = 0);
+    explicit TextEditorWidget(TextEditorConfig *config, QWidget *parent = 0);
     explicit TextEditorWidget(QWidget *parent = 0);
     virtual ~TextEditorWidget();
 
@@ -53,6 +56,7 @@ public:
     TextEditorComponent* textEditorComponent() const;
     TextMarginComponent* textMarginComponent() const;
     TextEditorScrollArea* textScrollArea() const;
+    TextEditorAutoCompleteComponent* autoCompleteComponent() const;
 
     void resetCaretTime();
     void fullUpdate();

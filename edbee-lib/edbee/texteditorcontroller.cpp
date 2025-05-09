@@ -1,7 +1,5 @@
-/**
- * Copyright 2011-2013 - Reliable Bits Software by Blommers IT. All Rights Reserved.
- * Author Rick Blommers
- */
+// edbee - Copyright (c) 2012-2025 by Rick Blommers and contributors
+// SPDX-License-Identifier: MIT
 
 #include "texteditorcontroller.h"
 
@@ -43,7 +41,12 @@ namespace edbee {
 /// The constructor
 /// @param widget the widget this controller is associated with
 /// @paarm parent the QObject parent of the controller
-TextEditorController::TextEditorController( TextEditorWidget* widget, QObject *parent)
+TextEditorController::TextEditorController(TextEditorWidget* widget, QObject *parent)
+    : TextEditorController( new CharTextDocument(), widget, parent )
+{
+}
+
+TextEditorController::TextEditorController(TextDocument *document, TextEditorWidget *widget, QObject *parent)
     : QObject(parent)
     , widgetRef_(widget)
     , textDocument_(nullptr)
@@ -59,6 +62,8 @@ TextEditorController::TextEditorController( TextEditorWidget* widget, QObject *p
     , autoScrollToCaret_(AutoScrollAlways)
     , borderedTextRanges_(nullptr)
 {
+    // auto initialize edbee if this hasn't been done already
+    Edbee::instance()->autoInit();
 
     // create the keymap
     keyMapRef_ = Edbee::instance()->defaultKeyMap();
@@ -68,11 +73,12 @@ TextEditorController::TextEditorController( TextEditorWidget* widget, QObject *p
     textRenderer_ = new TextRenderer( this );
 
     // create a text document (this should happen AFTER the creation of the renderer)
-    giveTextDocument( new CharTextDocument() );
+    giveTextDocument( document );
 
     // Now all objects have been created we can init them
     textRenderer_->init();
     textRenderer_->setThemeByName( textDocument()->config()->themeName() );
+
 }
 
 
