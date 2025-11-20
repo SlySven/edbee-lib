@@ -576,7 +576,7 @@ void TextEditorComponent::contextMenuEvent(QContextMenuEvent* event)
 void TextEditorComponent::repaintCarets()
 {
     bool visible = textRenderer()->isCaretVisible();
-    bool focus = hasFocus();
+    bool focus = textRenderer()->textWidget()->isFocusedOrChildHasFocus();
 
     if (focus != visible) {
         textRenderer()->setCaretVisible(focus);
@@ -631,7 +631,7 @@ void TextEditorComponent::updateAreaAroundOffset(size_t offset, int width )
         ren->xPosForOffset(offset) - width / 2,
         ren->yPosForOffset(offset) - textEditorRenderer_->extraPixelsToUpdateAroundLines(),
         width,
-        ren->lineHeight() + textEditorRenderer_->extraPixelsToUpdateAroundLines() * 2
+        ren->lineHeight() + textEditorRenderer_->extraPixelsToUpdateAroundLines() * 2 + 1
     );
 }
 
