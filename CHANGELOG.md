@@ -1,6 +1,11 @@
 # Changelog
 
 
+- (2026-01-04) #172, Assertation (crash) when selecting text with mouse in TextEditorComponent
+
+- (2025-12-16) Fix crash in TextMarginComponent, disable event when line is invalid (std::string::npos) (@BlackStar-EoP)
+- (2025-11-22) #166, CutCommand, full line cut, use selection to fix issue with advancing caret
+
 ## v0.12.1 - Autocomplete Improvements NVDA, Retain Clipboard on empty copy, Stray Pixel Fix
 
 - (2025-11-19) #152, Autocomplete Improvements for Screenreaders
